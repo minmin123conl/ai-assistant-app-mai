@@ -1,0 +1,26 @@
+[
+    {
+        "id": "94210525-76d1-48d3-a29a-69f841115abf",
+        "title": "min",
+        "content": "binhehe",
+        "password": null,
+        "deadline": null,
+        "createdAt": "2025-07-13T10:43:42.215150"
+    },
+    {
+        "id": "c5340bf1-69f9-4412-b092-1816be5a554a",
+        "title": "min",
+        "content": "lồn",
+        "password": "123",
+        "deadline": null,
+        "createdAt": "2025-07-13T10:44:58.002640"
+    },
+    {
+        "id": "f309cf78-815b-40a2-af1c-1b8e04a07f90",
+        "title": "Test ghi chú với giao diện mới",
+        "content": "Đây là nội dung ghi chú test với giao diện mới. Giao diện đã được cập nhật theo yêu cầu với layout giống như ảnh mẫu.",
+        "password": "123456",
+        "deadline": null,
+        "createdAt": "2025-07-13T10:50:55.120316"
+    }
+]
