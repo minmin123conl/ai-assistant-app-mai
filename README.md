@@ -14,7 +14,7 @@
 - Tạo và quản lý ghi chú với editor rich text
 - Bảo vệ ghi chú bằng mật khẩu
 - Thiết lập thời hạn cho ghi chú
-- Lưu trữ trên server với API Flask
+- Lưu trữ trên server trong file `notes.json` qua API Flask
 
 ### 🤖 AI Hỗ Trợ Học Tập
 - Chat với AI Gemini để hỗ trợ học tập
@@ -37,7 +37,7 @@
 
 ### Backend
 - **Flask** - Web framework Python
-- **SQLite** - Cơ sở dữ liệu nhẹ
+- **Lưu trữ JSON (notes.json)** - Ghi chú lưu trong file `notes.json`
 - **Flask-CORS** - Hỗ trợ cross-origin requests
 
 ### AI & APIs
@@ -81,6 +81,7 @@ ai-assistant-app-main/
 │   └── App.css           # Styles
 ├── server/
 │   ├── app.py            # Flask backend
+│   ├── notes.json        # File lưu ghi chú
 │   ├── requirements.txt  # Python dependencies
 │   └── .env              # Environment variables
 ├── dist/                 # Build output

@@ -20,7 +20,7 @@
 - **Routing hỗ trợ**: Sử dụng React Router để điều hướng đến ghi chú cụ thể
 
 ### 🛠 Cải tiến Kỹ thuật
-- **API Backend**: Flask server với SQLite database
+- **API Backend**: Flask server lưu ghi chú trong file `notes.json`
 - **CORS hỗ trợ**: Cho phép truy cập từ nhiều domain khác nhau
 - **React Router**: Hỗ trợ routing cho tính năng chia sẻ liên kết
 - **Responsive Design**: Giao diện tương thích với mọi kích thước màn hình

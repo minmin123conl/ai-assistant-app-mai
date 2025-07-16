@@ -18,7 +18,7 @@
 ### 2. 🔧 Tính Năng Hoạt Động
 - **✅ Tạo ghi chú**: Nhập tên, mật khẩu và nội dung
 - **✅ Bảo vệ mật khẩu**: Ghi chú được mã hóa và bảo vệ
-- **✅ Lưu trữ**: Ghi chú được lưu vào database SQLite
+- **✅ Lưu trữ**: Ghi chú được lưu trong file `notes.json`
 - **✅ Hiển thị danh sách**: Danh sách ghi chú với thông tin đầy đủ
 - **✅ Đánh dấu bảo vệ**: Ghi chú có mật khẩu được đánh dấu "🔒 Có mật khẩu"
 
@@ -32,7 +32,7 @@
 
 **Frontend URL:** https://gxcsxkdu.manus.space
 **Backend API:** https://5000-i2imb1x0gaem4b41tguch-e7a019ae.manusvm.computer
-**Framework:** React + Vite + Flask + SQLite
+**Framework:** React + Vite + Flask (lưu notes.json)
 
 ## 📊 So Sánh Trước/Sau
 
