@@ -153,11 +153,11 @@ function App() {
         };
         
         const savedNote = await createNote(noteData);
-        
+
         // Cập nhật danh sách ghi chú local
         setNotes(prevNotes => [...prevNotes, {
           ...savedNote,
-          hasPassword: !!savedNote.password
+          hasPassword: savedNote.hasPassword
         }]);
         
         setNewNote({ title: '', content: '', password: '', deadline: '' });
@@ -203,7 +203,7 @@ function App() {
       const serverNotes = await listNotes();
       setNotes(serverNotes.map(note => ({
         ...note,
-        hasPassword: !!note.password
+        hasPassword: note.hasPassword
       })));
     } catch (error) {
       console.error("Lỗi khi tải ghi chú:", error);

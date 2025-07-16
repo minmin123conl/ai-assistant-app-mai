@@ -1,5 +1,5 @@
 // API helper functions
-const API_BASE = process.env.NODE_ENV === 'production' ? 'https://5000-i2imb1x0gaem4b41tguch-e7a019ae.manusvm.computer' : 'https://5000-i2imb1x0gaem4b41tguch-e7a019ae.manusvm.computer';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 
 export const createNote = async (noteData) => {
   const response = await fetch(`${API_BASE}/notes`, {

@@ -1,9 +1,12 @@
-// Gemini API helper với key mới
-const GEMINI_API_KEY = 'AIzaSyDbSjSRboXDkxTSJHqogo1Hvmxl2cU9aVA';
+// Gemini API helper. Key is provided via environment variable
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent';
 
 export const callGeminiAPI = async (prompt, imageBase64 = null) => {
   try {
+    if (!GEMINI_API_KEY) {
+      throw new Error('GEMINI_API_KEY is not configured');
+    }
     const requestBody = {
       contents: [{
         parts: []
