@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { createNote, listNotes, deleteNote as deleteNoteAPI, verifyNotePassword } from './api.js';
+import {
+  callGeminiAPI,
+  translateText as translateTextAPI,
+  optimizeSchedule as optimizeScheduleAPI,
+} from './gemini-api.js';
 
 function App() {
   const [activeTab, setActiveTab] = useState("schedule");
@@ -97,13 +102,13 @@ function App() {
   };
   
   // Chức năng tối ưu hóa thời gian biểu
-  const optimizeSchedule = async () => {
+  const handleOptimizeSchedule = async () => {
     try {
-      const scheduleText = tasks.map(task => 
+      const scheduleText = tasks.map(task =>
         `${task.startTime} - ${task.endTime}: ${task.task}`
       ).join('\n');
-      
-      const suggestion = await optimizeSchedule(scheduleText);
+
+      const suggestion = await optimizeScheduleAPI(scheduleText);
       alert(`AI đã phân tích thời gian biểu của bạn:\n\n${suggestion}`);
     } catch (error) {
       console.error('Lỗi khi tối ưu hóa:', error);
@@ -191,7 +196,6 @@ function App() {
         console.error("Lỗi khi xóa ghi chú:", error);
         alert("Có lỗi xảy ra khi xóa ghi chú: " + error.message);
       }
-    }
   };
 
   const loadNotes = async () => {
@@ -203,6 +207,24 @@ function App() {
       })));
     } catch (error) {
       console.error("Lỗi khi tải ghi chú:", error);
+    }
+  };
+
+  // Chức năng dịch thuật
+  const handleTranslateText = async () => {
+    if (!translation.inputText.trim()) {
+      return;
+    }
+    try {
+      const result = await translateTextAPI(
+        translation.inputText,
+        translation.fromLang,
+        translation.toLang,
+      );
+      setTranslation(prev => ({ ...prev, outputText: result }));
+    } catch (error) {
+      console.error('Lỗi khi dịch văn bản:', error);
+      alert('Có lỗi xảy ra khi dịch văn bản.');
     }
   };
 
@@ -307,7 +329,7 @@ function App() {
             <div className="ai-optimization-section">
               <h3>🤖 AI Hỗ Trợ Sắp Xếp TGB</h3>
               <p>AI sẽ giúp bạn tối ưu hóa thời gian biểu dựa trên mức độ ưu tiên và thói quen học tập.</p>
-              <button className="optimize-btn" onClick={optimizeSchedule}>✨ Tối ưu hóa</button>
+              <button className="optimize-btn" onClick={handleOptimizeSchedule}>✨ Tối ưu hóa</button>
             </div>
             
             {/* Thời gian biểu */}
@@ -523,7 +545,7 @@ function App() {
                   value={translation.inputText}
                   onChange={(e) => setTranslation({...translation, inputText: e.target.value})}
                 />
-                <button className="translate-btn" onClick={translateText}>Dịch</button>
+                <button className="translate-btn" onClick={handleTranslateText}>Dịch</button>
                 <textarea
                   className="translation-output"
                   placeholder="Kết quả dịch sẽ hiển thị ở đây..."
