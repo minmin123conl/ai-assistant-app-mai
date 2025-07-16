@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import './NoteViewer.css';
 
 // API base URL
-const API_BASE = 'https://5000-i2imb1x0gaem4b41tguch-e7a019ae.manusvm.computer';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 
 function NoteViewer() {
   const { noteId } = useParams();
@@ -32,8 +32,8 @@ function NoteViewer() {
       }
 
       const noteData = await response.json();
-      
-      if (noteData.password) {
+
+      if (noteData.hasPassword) {
         setIsPasswordRequired(true);
       } else {
         setNote(noteData);
@@ -150,7 +150,7 @@ function NoteViewer() {
                 ⏰ Hết hạn: {new Date(note.deadline).toLocaleString('vi-VN')}
               </span>
             )}
-            {note.password && (
+            {note.hasPassword && (
               <span className="protected">🔒 Có bảo vệ</span>
             )}
           </div>

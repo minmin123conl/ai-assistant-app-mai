@@ -4,6 +4,7 @@ import json
 import os
 import uuid
 from datetime import datetime, timedelta
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 CORS(app, origins="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers=["Content-Type", "Authorization"]) # Enable CORS for all routes
@@ -61,17 +62,23 @@ def create_note():
             return jsonify({"error": "Title and content are required"}), 400
 
         notes = load_notes()
+        hashed_password = generate_password_hash(password) if password else None
         new_note = {
             'id': str(uuid.uuid4()),
             'title': title,
             'content': content,
-            'password': password if password else None,
+            'password': hashed_password,
             'deadline': deadline if deadline else None,
             'createdAt': datetime.now().isoformat()
         }
         notes.append(new_note)
         save_notes(notes)
-        return jsonify(new_note), 201
+
+        response_note = new_note.copy()
+        response_note['hasPassword'] = bool(password)
+        response_note.pop('password', None)
+
+        return jsonify(response_note), 201
     except Exception as e:
         app.logger.error(f"Error creating note: {e}")
         return jsonify({"error": str(e)}), 500
@@ -79,7 +86,7 @@ def create_note():
 @app.route('/notes', methods=['GET'])
 def list_notes():
     try:
-        cleanup_expired_notes() # Clean up expired notes before listing
+        cleanup_expired_notes()  # Clean up expired notes before listing
         notes = load_notes()
         # Only return notes that are not expired
         current_time = datetime.now()
@@ -95,7 +102,15 @@ def list_notes():
                     active_notes.append(note)
             else:
                 active_notes.append(note)
-        return jsonify(active_notes), 200
+
+        response_notes = []
+        for n in active_notes:
+            n_copy = n.copy()
+            n_copy['hasPassword'] = bool(n_copy.get('password'))
+            n_copy.pop('password', None)
+            response_notes.append(n_copy)
+
+        return jsonify(response_notes), 200
     except Exception as e:
         app.logger.error(f"Error listing notes: {e}")
         return jsonify({"error": str(e)}), 500
@@ -118,7 +133,11 @@ def get_note(note_id):
             except ValueError:
                 pass # Invalid deadline, treat as not expired
 
-        return jsonify(note), 200
+        note_copy = note.copy()
+        note_copy['hasPassword'] = bool(note_copy.get('password'))
+        note_copy.pop('password', None)
+
+        return jsonify(note_copy), 200
     except Exception as e:
         app.logger.error(f"Error getting note {note_id}: {e}")
         return jsonify({"error": str(e)}), 500
@@ -150,7 +169,8 @@ def verify_note_password():
         if not note:
             return jsonify({"error": "Note not found"}), 404
 
-        if note.get('password') == password:
+        stored_hash = note.get('password')
+        if stored_hash and password and check_password_hash(stored_hash, password):
             return jsonify({"verified": True}), 200
         else:
             return jsonify({"verified": False, "error": "Incorrect password"}), 401
