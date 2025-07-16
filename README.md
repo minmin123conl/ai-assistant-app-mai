@@ -125,6 +125,23 @@ GEMINI_API_KEY=your_gemini_api_key_here
 - Fast HMR development
 - Efficient state management
 
+## 🧪 Tests
+
+Chạy các bài kiểm thử để đảm bảo ứng dụng hoạt động đúng.
+
+### Frontend
+
+```bash
+pnpm test
+```
+
+### Backend
+
+```bash
+cd server
+pytest
+```
+
 ## 🤝 Đóng góp
 
 Dự án được phát triển với mục đích học tập và demo. Mọi đóng góp đều được chào đón!
